@@ -69,29 +69,27 @@ exports.edit = (req, res) => {
 // Update book
 exports.update = (req, res) => {
   const { name, book, year, type } = req.body;
-  
-  connection.query('UPDATE book SET name = ?, year = ?, type = ? WHERE id = ?', [name, book, year, type, req.params.id], (err, rows) => {
+  connection.query('UPDATE book SET name = ?, book = ?, year = ?, type = ? WHERE id = ?', [name, book, year, type, req.params.id], (err, rows) => {
 
     if (!err) {
-      // User the connection
       connection.query('SELECT * FROM book WHERE id = ?', [req.params.id], (err, rows) => {
-        // When done with the connection, release it
-        
-        if (!err) {
+        if(!err) {
           res.render('edit-user', { rows, alert: `${name} has been updated.` });
-        } else {
+        }
+        else{
           console.log(err);
         }
         console.log('The data from book table: \n', rows);
       });
-    } else {
+    }
+    else{
       console.log(err);
     }
     console.log('The data from book table: \n', rows);
   });
 }
 
-
+    
 
 
 
